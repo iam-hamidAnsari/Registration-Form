@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<style>
+    form {
+        width: 500px;
+        margin: auto;
+    }
+
+    .body {
+        background-color: black;
+    }
+
+    .text {
+        color: white;
+    }
+
+    .heading {
+        display: flex;
+        justify-content: space-around;
+        color: black;
+        background-color: #45a049;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        background-color: #45a049;
+        color: black;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 0 5px;
+        outline: 2px white;
+    }
+
+    .input {
+        padding: 6px 12px;
+        border-radius: 5px;
+        width: 500px;
+    }
+
+    .result {
+        color: aliceblue;
+    }
+
+    .welcome {
+        color: aliceblue;
+    }
+</style>
+
+<body class="body">
+    <header class="heading"><b>LOGIN</b></header><br>
+    <div class="container">
+        <div class="row">
+            <form id="getdata">
+                <div class="col-md-2">
+                    <label class="text">Mobile no :</label>
+                    <input type="text" id="number" class="input" placeholder="Enter Mobile No">
+                </div><br>
+                <div class="col-md-2">
+                    <label class="text">Password:</label>
+                    <input type="password" id="Password" class="input" placeholder="Enter Password">
+                </div><br>
+                <a class="btn" href="RegistrationForm.html">Back</a>
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div><br>
+        <div class="welcome"></div>
+        <div class="result"></div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $("#getdata").submit(function (event) {
+            event.preventDefault();
+            var number = $("#number").val();
+            var Password = $("#Password").val();
+            $.ajax({
+                url: "http://localhost:8080/get?number=" + number,
+                type: "GET",
+                success: function (response) {
+                    var data = "";
+                    if (response != null) {
+                        if (Password == response.Password) {
+                            $(".welcome").html("Welcome " + response.Firstname);
+                            // data = "heres your data  " + " First Name : " + response.Firstname + " Last name : " + response.Lastname + " Contact no : " + response.number + " Email : " + response.email + " Gender :" + response.gender;
+                            // $(".result").html(data);
+
+                        } else {
+                            $(".welcome").html("Invalid Password");
+                        }
+
+
+                    }
+                    else {
+                        data = "Invalid PAssword Or Number";
+                        $(".result").html(data);
+
+                    }
+                },
+                error: function (j, t, err) {
+                    $(".welcome").html("Invalid Password Or Number");
+                    console.log(err, j, t);
+
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>
